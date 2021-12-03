@@ -1,0 +1,11 @@
+.stages {
+    padding: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.stageDiv {
+    border: thistle solid;
+}

@@ -1,0 +1,23 @@
+.home, 
+.intro {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home .title {
+    text-align: center;
+}
+
+.home p {
+    text-align: center;
+}
+
+.butt-to-stages {
+    background-color: darkorange;
+    width: fit-content;
+    padding: 10px;
+    border: darkslategrey solid;
+}
