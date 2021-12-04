@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import "../style/stage.css";
 import DropDown from "./DropDown";
 import setupFirebase from "./setupFirebase";
-import * as firestore from "firebase/firestore/lite";
+import * as firestore from "firebase/firestore";
 import * as storage from "firebase/storage";
 
 const Stage = () => {
@@ -28,15 +28,20 @@ const Stage = () => {
             setImgUrl(url);
         });
         
-        // const myFireStore = firestore.getFirestore(app);
-        // const myCollection = firestore.doc(firestore.collection(myFireStore, 'problems'));
-        // firestore.getDoc(myCollection)
-        // .then((thing) => {
-        //     console.log(thing);
-        // });
-        // console.log(myCollection);
+        const myFireStore = firestore.getFirestore(app);
+        firestore.getDocs(firestore.collection(myFireStore, "problems"))
+        .then((snapShot) => {
+            snapShot.docs.forEach(doc => {
+                const data = doc.data();
+                setAns(data.ans);
+                const corr = data.coordinate;
+                const stand = data.standard;
+                console.log(corr);
+                console.log(stand);
+            })
+        });
 
-        setAns(sampleAns);
+        // setAns(sampleAns);
         setAnsCor(dataAns);
         setArea(standard);
         setShowDrop({
