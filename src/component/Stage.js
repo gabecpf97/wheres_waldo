@@ -16,9 +16,7 @@ const Stage = () => {
     const [imgUrl, setImgUrl] = useState(null);
 
     useEffect(() => {
-        const standard = [5, 10];
-        const sampleAns = ['Waldo', 'Peopl1', '2People'];
-        const dataAns = ['1,1', '4, 16', '66, 2'];
+        const amountOfAns = 5;
 
         const app = setupFirebase().app;
         const myStorage = storage.getStorage(app);
@@ -32,40 +30,31 @@ const Stage = () => {
         firestore.getDocs(firestore.collection(myFireStore, "problems"))
         .then((snapShot) => {
             snapShot.docs.forEach(doc => {
-                const data = doc.data();
-                setAns(data.ans);
-                const corr = data.coordinate;
-                const stand = data.standard;
-                console.log(corr);
-                console.log(stand);
+                if (doc.id === stageID) {
+                    const data = doc.data();
+                    setAns(data.ans);
+                    const corr = data.coordinate;
+                    const stand = data.standard;
+                    setAnsCor(corr);
+                    setArea(stand.split(','));
+                }
             })
         });
-
-        // setAns(sampleAns);
-        setAnsCor(dataAns);
-        setArea(standard);
+        
+        const sampleFound = [];
+        for (let i = 0; i < amountOfAns; i++) {
+            sampleFound.push(false);
+        };
+        setFound(sampleFound);
         setShowDrop({
             isShow:false,
-            x:-1,
-            y:-1,
-            displayX: -1,
-            displayY: -1
         });
 
-        const sampleFound = [];
-        sampleAns.forEach(() => {
-            sampleFound.push(false);
-        });
-        setFound(sampleFound);
 
         document.querySelector('body').addEventListener('click', (e) => {
             if (e.target !== document.querySelector('.pic')) {
                 setShowDrop({
                     isShow:false,
-                    x:-1,
-                    y:-1,
-                    displayX: -1,
-                    displayY: -1
                 });
             }
         });
@@ -74,15 +63,11 @@ const Stage = () => {
             document.querySelector('body').removeEventListener('click', () => {
                 setShowDrop({
                     isShow:false,
-                    x:-1,
-                    y:-1,
-                    displayX: -1,
-                    displayY: -1
                 });
             });
         }
 
-    }, []);
+    }, [stageID]);
 
     const onClickedImg = (e) => {
         const xCorr = e.pageX - e.target.offsetLeft;
@@ -91,27 +76,31 @@ const Stage = () => {
             isShow:true,
             x:xCorr,
             y:yCorr,
+            ratioX:e.target.clientWidth,
+            ratioY:e.target.clientHeight,
             displayX: e.pageX,
             displayY: e.pageY
         });
     }
 
-    const onClickedAnswer = (x, y, index) => {
-        let [ansX, ansY] = ansCor[index].split(',');
-        ansX = parseFloat(ansX);
-        ansY = parseFloat(ansY); 
-        if ((x >= ansX && x <= (ansX + area[0])) &&
-            (y >= ansY && y <= (ansY + area[1]))) {
-                const tempFound = [...found];
-                tempFound[index] = true;
-                setFound(tempFound);
+    const onClickedAnswer = (x, y, ratioX, ratioY, ansName, index) => {
+        const ansX = [];
+        const ansY = [];
+        for (let i = 0; i < ansCor[ansName].length; i++) {
+            const [curX, curY] = ansCor[ansName][i].split(',');
+            ansX.push(Math.floor(parseFloat(curX) / (area[0] / ratioX)));
+            ansY.push(Math.floor(parseFloat(curY) / (area[1] / ratioY)));
         }
+        if ((x >= ansX[0] && y >= ansY[0]) &&
+        (x <= ansX[1] && y >= ansY[1]) &&
+        (x >= ansX[2] && y <= ansY[2]) &&
+        (x <= ansX[3] && y <= ansY[3])) {
+            const tempFound = [...found];
+            tempFound[index] = true;
+            setFound(tempFound);
+        }     
         setShowDrop({
             isShow:false,
-            x:-1,
-            y:-1,
-            displayX: -1,
-            displayY: -1
         });
     }
 
@@ -136,6 +125,8 @@ const Stage = () => {
                             ansArr={ans}
                             x={showDrop.x}
                             y={showDrop.y}
+                            ratioX={showDrop.ratioX}
+                            ratioY={showDrop.ratioY}
                             displayX={showDrop.displayX}
                             displayY={showDrop.displayY}
                             onClickedAns={onClickedAnswer}
