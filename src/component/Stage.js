@@ -2,20 +2,40 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import "../style/stage.css";
 import DropDown from "./DropDown";
+import setupFirebase from "./setupFirebase";
+import * as firestore from "firebase/firestore/lite";
+import * as storage from "firebase/storage";
 
 const Stage = () => {
-    const [stageID] = useState(useParams().id);
+    const [stageID] = useState(useParams().id.replace());
     const [ans, setAns] = useState([]);
     const [found, setFound] = useState([]);
     const [ansCor, setAnsCor] = useState([]);
     const [area, setArea] = useState();
     const [showDrop, setShowDrop] = useState({});
+    const [imgUrl, setImgUrl] = useState(null);
 
     useEffect(() => {
         const standard = [5, 10];
         const sampleAns = ['Waldo', 'Peopl1', '2People'];
         const dataAns = ['1,1', '4, 16', '66, 2'];
+
+        const app = setupFirebase().app;
+        const myStorage = storage.getStorage(app);
+        const imgRef = storage.ref(myStorage, `${stageID}.jpg`);
+        storage.getDownloadURL(imgRef)
+        .then((url) => {
+            setImgUrl(url);
+        });
         
+        // const myFireStore = firestore.getFirestore(app);
+        // const myCollection = firestore.doc(firestore.collection(myFireStore, 'problems'));
+        // firestore.getDoc(myCollection)
+        // .then((thing) => {
+        //     console.log(thing);
+        // });
+        // console.log(myCollection);
+
         setAns(sampleAns);
         setAnsCor(dataAns);
         setArea(standard);
@@ -32,6 +52,31 @@ const Stage = () => {
             sampleFound.push(false);
         });
         setFound(sampleFound);
+
+        document.querySelector('body').addEventListener('click', (e) => {
+            if (e.target !== document.querySelector('.pic')) {
+                setShowDrop({
+                    isShow:false,
+                    x:-1,
+                    y:-1,
+                    displayX: -1,
+                    displayY: -1
+                });
+            }
+        });
+
+        return () => {
+            document.querySelector('body').removeEventListener('click', () => {
+                setShowDrop({
+                    isShow:false,
+                    x:-1,
+                    y:-1,
+                    displayX: -1,
+                    displayY: -1
+                });
+            });
+        }
+
     }, []);
 
     const onClickedImg = (e) => {
@@ -79,8 +124,8 @@ const Stage = () => {
                     })}
                 </div>
                 <div className="frame">
-                    <div className="pic" onClick={(e) => onClickedImg(e)} >
-                    </div>
+                    <img className="pic" onClick={(e) => onClickedImg(e)} 
+                            src={imgUrl} alt={stageID}/>
                     {showDrop.isShow &&  
                         <DropDown
                             ansArr={ans}

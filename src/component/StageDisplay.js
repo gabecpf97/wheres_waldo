@@ -7,7 +7,7 @@ const StageDisplay = () => {
     const [previewImg, setPreviewImg] = useState([]);
 
     useEffect(() => {
-        const idList = ['123', '234', '345'];
+        const idList = ['jump_chara'];
         setStages(idList);
         const imgList = ['1img', '2img', '3img'];
         setPreviewImg(imgList);
