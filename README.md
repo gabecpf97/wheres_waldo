@@ -5,6 +5,13 @@ while being timed.
 
 this web app uses react, and firebase to complete
 
+## Image source
+
+https://www.posernerd.com/2021/04/one-piece.html
+https://cutewallpaper.org/download.php?file=/22/anime-collage-dbz-one-piece-naruto-wallpapers/anime-wallpaper-assorted-anime-characters-poster-son-goku-monkey-d-luffy-uzumaki-naruto-gon-css-dra%E2%80%A6-all-anime-characters-anime-characters-character-wallpaper.jpg
+https://comicbook.com/comics/news/marvel-comics-unlimited-makes-new-comics-release-date-changes/
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
