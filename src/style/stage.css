@@ -5,3 +5,24 @@
     justify-content: center;
     align-items: center;
 }
+
+.frame {
+    margin-bottom: 30px;
+}
+
+.pic {
+    width: 600px;
+    height: 600px;
+    background-color: thistle;
+}
+
+.drop_down {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    border: tomato solid;
+}
+
+.drop_down button {
+    cursor: pointer;
+}
