@@ -11,7 +11,8 @@
 }
 
 .pic {
-    width: 90vw;
+    width: auto;
+    height: 90vh;
 }
 
 .drop_down {
