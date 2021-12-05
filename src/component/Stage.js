@@ -4,6 +4,7 @@ import "../style/stage.css";
 import DropDown from "./DropDown";
 import setupFirebase from "./setupFirebase";
 import * as firestore from "firebase/firestore";
+import { getStorage, getDownloadURL, ref } from "firebase/storage";
 
 const Stage = () => {
     const [stageID] = useState(useParams().id.replace());
@@ -14,11 +15,14 @@ const Stage = () => {
     const [showDrop, setShowDrop] = useState({});
     const [imgUrl] = useState(useLocation().state);
     const [loaded, setLoaded] = useState(false);
+    const [dataLoaded, setDataLoaded] = useState(false);
+    const [charaImg, setCharaImg] = useState([]);
+    const app = setupFirebase().app;
 
     useEffect(() => {
         const amountOfAns = 5;
         
-        const myFireStore = firestore.getFirestore(setupFirebase().app);
+        const myFireStore = firestore.getFirestore(app);
         firestore.getDocs(firestore.collection(myFireStore, "problems"))
         .then((snapShot) => {
             snapShot.docs.forEach(doc => {
@@ -29,7 +33,7 @@ const Stage = () => {
                     const stand = data.standard;
                     setAnsCor(corr);
                     setArea(stand.split(','));
-                    setLoaded(true);
+                    setDataLoaded(true);
                 }
             })
         });
@@ -42,7 +46,7 @@ const Stage = () => {
         setShowDrop({
             isShow:false,
         });
-
+        
         document.querySelector('body').addEventListener('click', (e) => {
             if (e.target !== document.querySelector('.pic')) {
                 setShowDrop({
@@ -50,7 +54,7 @@ const Stage = () => {
                 });
             }
         });
-
+        
         return () => {
             document.querySelector('body').removeEventListener('click', () => {
                 setShowDrop({
@@ -58,9 +62,29 @@ const Stage = () => {
                 });
             });
         }
+        
+    }, [stageID, app]);
 
-    }, [stageID]);
-
+    useEffect(() => {
+        if (dataLoaded === true) {
+            const myStorage = getStorage(app);
+            const tempList = [];
+            ans.forEach(id => {
+                getDownloadURL(ref(myStorage, `${id}.jpg`))
+                .then((url) => {
+                    tempList.push({
+                        id: id,
+                        url: url
+                    });
+                    if (tempList.length === ans.length) {
+                        setCharaImg(tempList);
+                        setLoaded(true);
+                    }
+                });
+            });
+        }
+    }, [dataLoaded, app, ans]);
+    
     const onClickedImg = (e) => {
         const xCorr = e.pageX - e.target.offsetLeft;
         const yCorr = e.pageY - e.target.offsetTop;
@@ -74,7 +98,7 @@ const Stage = () => {
             displayY: e.pageY
         });
     }
-
+    
     const onClickedAnswer = (x, y, ratioX, ratioY, ansName, index) => {
         const ansX = [];
         const ansY = [];
@@ -96,6 +120,14 @@ const Stage = () => {
         });
     }
 
+    function _getCharaUrl(name) {
+        for (let i = 0; i < charaImg.length; i++) {
+            if (charaImg[i].id === name)
+                return charaImg[i].url;
+        }
+        return undefined;
+    }
+
     return (
         <div className="stage">
             <h1>{stageID.replaceAll('_', ' ').replace('chara', 'Character')}</h1>
@@ -104,9 +136,11 @@ const Stage = () => {
                 <div className="content">
                     <div className="info">
                         {ans.map((name, i) => {
+                            const charaUrl = _getCharaUrl(name);
                             return (
                                 <div className="status" key={name}>
                                     <label>{name.replaceAll('_', ' ')}   {found[i].toString()}</label>
+                                    <img src={charaUrl} alt={name} />
                                 </div>
                             )
                         })}

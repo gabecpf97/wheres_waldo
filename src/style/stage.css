@@ -11,17 +11,31 @@
 }
 
 .pic {
-    width: auto;
-    height: 90vh;
+    max-width: 90vw;
+    max-height: 90vh;
+    /* width: auto;
+    height: 90vh; */
 }
 
 .drop_down {
     position: absolute;
     display: flex;
     flex-direction: column;
+    background-color: rgb(236, 126, 106);
     border: tomato solid;
 }
 
 .drop_down button {
     cursor: pointer;
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status img {
+    width: auto;
+    height: 200px;
 }

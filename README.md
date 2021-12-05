@@ -10,7 +10,14 @@ this web app uses react, and firebase to complete
 https://www.posernerd.com/2021/04/one-piece.html
 https://cutewallpaper.org/download.php?file=/22/anime-collage-dbz-one-piece-naruto-wallpapers/anime-wallpaper-assorted-anime-characters-poster-son-goku-monkey-d-luffy-uzumaki-naruto-gon-css-dra%E2%80%A6-all-anime-characters-anime-characters-character-wallpaper.jpg
 https://comicbook.com/comics/news/marvel-comics-unlimited-makes-new-comics-release-date-changes/
-
+https://onepiece.fandom.com/wiki/Monkey_D._Luffy
+https://www.anime-planet.com/characters/kirito
+https://anidb.net/character/49699
+https://marvel.fandom.com/wiki/Matthew_Murdock_(Earth-616)
+https://www.pinterest.com/pin/826692075354887908/
+https://classicmarvelforever.com/cast/cyclops.htm
+https://onepiece.fandom.com/wiki/Silvers_Rayleigh
+https://onepiece.fandom.com/wiki/Perona
 
 # Getting Started with Create React App
 
