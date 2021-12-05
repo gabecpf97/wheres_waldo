@@ -98,7 +98,7 @@ const Stage = () => {
 
     return (
         <div className="stage">
-            <h1>{stageID}</h1>
+            <h1>{stageID.replaceAll('_', ' ').replace('chara', 'Character')}</h1>
             {!loaded && <h2 className="loading">Loading...</h2>}
             {loaded &&
                 <div className="content">

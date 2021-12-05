@@ -17,39 +17,50 @@ const StageDisplay = () => {
         idList.forEach(id => {
             getDownloadURL(ref(myStorage, `${id}.jpg`))
             .then((url) =>  {
-                tempImgList.push(url);
-                if (id === 'One_Piece_chara')
+                tempImgList.push({
+                    id: id,
+                    url: url
+                });
+                if (tempImgList.length === 3) {
+                    setPreviewImg(tempImgList);
                     setLoaded(true);
+                }
             });
         })
-        setPreviewImg(tempImgList);
     }, []);
+
+    const _getUrl = (id) => {
+        for (let i = 0; i < previewImg.length; i++) {
+            if (previewImg[i].id === id)
+                return previewImg[i].url;
+        }
+        return undefined;
+    }
 
     return (
         <div className="stages">
-            {
-                stages.map((stageId, i) => {
+            {!loaded && <div className="loading">
+                    loading...
+                </div>}
+            {loaded && (
+                stages.map((stageId, i) => { 
+                    const imgUrl = _getUrl(stageId);
                     return (
                         <div className="stageDiv" key={stageId}>
-                            {!loaded && <div className="loading">
-                                    loading...
-                                </div>}
-                            {loaded && 
-                                <Link to={`/stages/${stageId}`}
-                                        state={previewImg[i]}>
-                                    <img src={previewImg[i]} 
-                                        alt={stageId}/>
-                                        <label className="stageName">
-                                            {
-                                                stageId.replaceAll('_', ' ')
-                                                    .replace('chara', 'character')
-                                            }
-                                        </label>
-                                </Link>     
-                            }
+                            <Link to={`/stages/${stageId}`}
+                                    state={imgUrl}>
+                                <img src={imgUrl} 
+                                    alt={stageId}/>
+                                    <label className="stageName">
+                                        {
+                                            stageId.replaceAll('_', ' ')
+                                                .replace('chara', 'character')
+                                        }
+                                    </label>
+                            </Link>     
                         </div>
                     )
-                })
+                }))
             }
         </div>
     );
