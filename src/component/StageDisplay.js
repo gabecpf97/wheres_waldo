@@ -1,16 +1,28 @@
 import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import "../style/stageDisplay.css";
+import { getStorage, ref, getDownloadURL } from "@firebase/storage";
+import setupFirebase from "./setupFirebase";
 
 const StageDisplay = () => {
     const [stages, setStages] = useState([]);
     const [previewImg, setPreviewImg] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-        const idList = ['jump_chara'];
+        const idList = ['Jump_chara', 'Marvel_chara', 'One_Piece_chara'];
         setStages(idList);
-        const imgList = ['1img', '2img', '3img'];
-        setPreviewImg(imgList);
+        const myStorage = getStorage(setupFirebase().app);
+        const tempImgList = [];
+        idList.forEach(id => {
+            getDownloadURL(ref(myStorage, `${id}.jpg`))
+            .then((url) =>  {
+                tempImgList.push(url);
+                if (id === 'One_Piece_chara')
+                    setLoaded(true);
+            });
+        })
+        setPreviewImg(tempImgList);
     }, []);
 
     return (
@@ -19,9 +31,22 @@ const StageDisplay = () => {
                 stages.map((stageId, i) => {
                     return (
                         <div className="stageDiv" key={stageId}>
-                            <Link to={`/stages/${stageId}`}>
-                                <p>{previewImg[i]}</p>
-                            </Link>
+                            {!loaded && <div className="loading">
+                                    loading...
+                                </div>}
+                            {loaded && 
+                                <Link to={`/stages/${stageId}`}
+                                        state={previewImg[i]}>
+                                    <img src={previewImg[i]} 
+                                        alt={stageId}/>
+                                        <label className="stageName">
+                                            {
+                                                stageId.replaceAll('_', ' ')
+                                                    .replace('chara', 'character')
+                                            }
+                                        </label>
+                                </Link>     
+                            }
                         </div>
                     )
                 })

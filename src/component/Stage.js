@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import "../style/stage.css";
 import DropDown from "./DropDown";
 import setupFirebase from "./setupFirebase";
 import * as firestore from "firebase/firestore";
-import * as storage from "firebase/storage";
 
 const Stage = () => {
     const [stageID] = useState(useParams().id.replace());
@@ -13,20 +12,13 @@ const Stage = () => {
     const [ansCor, setAnsCor] = useState([]);
     const [area, setArea] = useState();
     const [showDrop, setShowDrop] = useState({});
-    const [imgUrl, setImgUrl] = useState(null);
+    const [imgUrl] = useState(useLocation().state);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         const amountOfAns = 5;
-
-        const app = setupFirebase().app;
-        const myStorage = storage.getStorage(app);
-        const imgRef = storage.ref(myStorage, `${stageID}.jpg`);
-        storage.getDownloadURL(imgRef)
-        .then((url) => {
-            setImgUrl(url);
-        });
         
-        const myFireStore = firestore.getFirestore(app);
+        const myFireStore = firestore.getFirestore(setupFirebase().app);
         firestore.getDocs(firestore.collection(myFireStore, "problems"))
         .then((snapShot) => {
             snapShot.docs.forEach(doc => {
@@ -37,6 +29,7 @@ const Stage = () => {
                     const stand = data.standard;
                     setAnsCor(corr);
                     setArea(stand.split(','));
+                    setLoaded(true);
                 }
             })
         });
@@ -49,7 +42,6 @@ const Stage = () => {
         setShowDrop({
             isShow:false,
         });
-
 
         document.querySelector('body').addEventListener('click', (e) => {
             if (e.target !== document.querySelector('.pic')) {
@@ -107,33 +99,36 @@ const Stage = () => {
     return (
         <div className="stage">
             <h1>{stageID}</h1>
-            <div className="content">
-                <div className="info">
-                    {ans.map((name, i) => {
-                        return (
-                            <div className="status" key={name}>
-                                <label>{name}   {found[i].toString()}</label>
-                            </div>
-                        )
-                    })}
+            {!loaded && <h2 className="loading">Loading...</h2>}
+            {loaded &&
+                <div className="content">
+                    <div className="info">
+                        {ans.map((name, i) => {
+                            return (
+                                <div className="status" key={name}>
+                                    <label>{name.replaceAll('_', ' ')}   {found[i].toString()}</label>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className="frame">
+                        <img className="pic" onClick={(e) => onClickedImg(e)} 
+                                src={imgUrl} alt={stageID}/>
+                        {showDrop.isShow &&  
+                            <DropDown
+                                ansArr={ans}
+                                x={showDrop.x}
+                                y={showDrop.y}
+                                ratioX={showDrop.ratioX}
+                                ratioY={showDrop.ratioY}
+                                displayX={showDrop.displayX}
+                                displayY={showDrop.displayY}
+                                onClickedAns={onClickedAnswer}
+                            />
+                        }
+                    </div>
                 </div>
-                <div className="frame">
-                    <img className="pic" onClick={(e) => onClickedImg(e)} 
-                            src={imgUrl} alt={stageID}/>
-                    {showDrop.isShow &&  
-                        <DropDown
-                            ansArr={ans}
-                            x={showDrop.x}
-                            y={showDrop.y}
-                            ratioX={showDrop.ratioX}
-                            ratioY={showDrop.ratioY}
-                            displayX={showDrop.displayX}
-                            displayY={showDrop.displayY}
-                            onClickedAns={onClickedAnswer}
-                        />
-                    }
-                </div>
-            </div>
+            }
         </div>
     );
 }

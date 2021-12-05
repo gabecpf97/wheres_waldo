@@ -13,7 +13,7 @@ const DropDown = ({ ansArr, x, y, ratioX, ratioY, displayX, displayY, onClickedA
                     <button key={ans} onClick={() => {
                         onClickedAns(x, y, ratioX, ratioY, ans, i)}}
                         className="ansButt">
-                            {ans}
+                            {ans.replaceAll('_', ' ')}
                     </button>
                 )
             })}
