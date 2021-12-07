@@ -24,7 +24,8 @@ const UserForm = ({id, theScore}) => {
 
     return (
         <div className="userInput">
-            <h2>Add your name to the Score Board</h2>
+            <h2>You finished in {theScore} sec</h2>
+            <h2>Would you like to add your name to the Score Board</h2>
             <form>
                 <label>Name: </label>
                 <input type="text" 
