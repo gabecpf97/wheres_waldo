@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import Home from "./Home";
 import StageDisplay from "./StageDisplay";
 import Stage from "./Stage";
+import Footer from "./Footer";
 import "../style/style.css";
 
 const RouteSwitch = () => {
@@ -16,6 +17,7 @@ const RouteSwitch = () => {
                     <Route path="/stages" element={<StageDisplay />} />
                     <Route path="/stages/:id" element={<Stage />} />
                 </Routes>
+                <Footer />
             </BrowserRouter>
         </div>
     );

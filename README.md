@@ -18,6 +18,7 @@ https://www.pinterest.com/pin/826692075354887908/
 https://classicmarvelforever.com/cast/cyclops.htm
 https://onepiece.fandom.com/wiki/Silvers_Rayleigh
 https://onepiece.fandom.com/wiki/Perona
+http://clipart-library.com/free/transparent-check-mark.html
 
 # Getting Started with Create React App
 

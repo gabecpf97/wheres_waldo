@@ -10,11 +10,12 @@
     border: thistle solid;
 }
 
-.stageDiv a {
+.stageDiv{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: honeydew;
 }
 
 .stageDiv img {

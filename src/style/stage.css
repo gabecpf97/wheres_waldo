@@ -4,17 +4,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100%;
 }
 
 .frame {
     margin-bottom: 30px;
+    height: fit-content;
 }
 
 .pic {
     max-width: 90vw;
     max-height: 90vh;
-    /* width: auto;
-    height: 90vh; */
 }
 
 .drop_down {
@@ -33,9 +33,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: bisque solid;
+}
+
+.status {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .status img {
     width: auto;
     height: 200px;
+    border-radius: 5px;
+}
+
+.found {
+    opacity: 0.2;
 }

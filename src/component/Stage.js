@@ -137,10 +137,13 @@ const Stage = () => {
                     <div className="info">
                         {ans.map((name, i) => {
                             const charaUrl = _getCharaUrl(name);
+                            const chara_name = name.replaceAll('_', ' ');
                             return (
                                 <div className="status" key={name}>
-                                    <label>{name.replaceAll('_', ' ')}   {found[i].toString()}</label>
-                                    <img src={charaUrl} alt={name} />
+                                    <img src={charaUrl} 
+                                        className={(found[i] ? 'found' : 'not_found')}
+                                        alt={name} />
+                                    <label>{chara_name}</label>
                                 </div>
                             )
                         })}

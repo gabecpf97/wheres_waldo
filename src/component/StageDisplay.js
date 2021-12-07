@@ -46,9 +46,9 @@ const StageDisplay = () => {
                 stages.map((stageId, i) => { 
                     const imgUrl = _getUrl(stageId);
                     return (
-                        <div className="stageDiv" key={stageId}>
-                            <Link to={`/stages/${stageId}`}
-                                    state={imgUrl}>
+                        <Link to={`/stages/${stageId}`}
+                            state={imgUrl}>
+                            <div className="stageDiv" key={stageId}>
                                 <img src={imgUrl} 
                                     alt={stageId}/>
                                     <label className="stageName">
@@ -57,8 +57,8 @@ const StageDisplay = () => {
                                                 .replace('chara', 'character')
                                         }
                                     </label>
-                            </Link>     
-                        </div>
+                            </div>
+                        </Link>     
                     )
                 }))
             }
