@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import "../style/stage.css";
 import DropDown from "./DropDown";
+import ScoreBoard from "./ScoreBoard";
 import setupFirebase from "./setupFirebase";
 import * as firestore from "firebase/firestore";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
@@ -17,6 +18,8 @@ const Stage = () => {
     const [loaded, setLoaded] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [charaImg, setCharaImg] = useState([]);
+    const [allFound, setAllFound] = useState(false);
+    const [myScore, setMyScore] = useState();
     const app = setupFirebase().app;
 
     useEffect(() => {
@@ -79,11 +82,25 @@ const Stage = () => {
                     if (tempList.length === ans.length) {
                         setCharaImg(tempList);
                         setLoaded(true);
+                        setMyScore(Math.floor(Date.now() / 1000));
                     }
                 });
             });
         }
     }, [dataLoaded, app, ans]);
+
+    useEffect(() => {
+        let checkFound = true;
+        for (let i = 0; i < ans.length; i++) {
+            if (!found[i])
+                checkFound = false;
+        }
+        setAllFound(checkFound);
+        if (checkFound)
+            setMyScore(myScore => {
+                return (Math.floor(Date.now() / 1000) - myScore)
+            });
+    }, [found, ans]);
     
     const onClickedImg = (e) => {
         const xCorr = e.pageX - e.target.offsetLeft;
@@ -164,6 +181,12 @@ const Stage = () => {
                             />
                         }
                     </div>
+                    {allFound&&
+                        <ScoreBoard 
+                            id={stageID}
+                            theScore={myScore}
+                        />
+                    }
                 </div>
             }
         </div>
