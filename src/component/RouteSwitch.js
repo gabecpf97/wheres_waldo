@@ -6,6 +6,7 @@ import StageDisplay from "./StageDisplay";
 import Stage from "./Stage";
 import Footer from "./Footer";
 import "../style/style.css";
+import ScoreBoard from "./ScoreBoard";
 
 const RouteSwitch = () => {
     return (
@@ -16,6 +17,7 @@ const RouteSwitch = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/stages" element={<StageDisplay />} />
                     <Route path="/stages/:id" element={<Stage />} />
+                    <Route path="/score_board" element={<ScoreBoard />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>

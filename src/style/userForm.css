@@ -1,0 +1,26 @@
+.userInput {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: honeydew;
+    color: darkslategrey;
+    padding: 30vh 30vw;
+    border-radius: 10px;
+}
+
+h2 {
+    margin-top: 0px;
+}
+
+.toScore_link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #699ce7;
+}
+
+.userInput button {
+    cursor: pointer;
+    margin-top: 5px;
+}

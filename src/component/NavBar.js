@@ -10,7 +10,10 @@ const NavBar = () => {
             </Link>
             <ul className="tabs">
                 <Link to="/stages">
-                    <li>stages</li>
+                    <li>Stages</li>
+                </Link>
+                <Link to="/score_board">
+                    <li>Score Board</li>
                 </Link>
             </ul>
         </div>

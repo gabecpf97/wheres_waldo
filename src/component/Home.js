@@ -7,8 +7,8 @@ function Home() {
     <div className="home">
       <h1 className="title">Where is Waldo?</h1>
       <div className="intro">
-        <p>This is a simple web game that is Where's Waldo</p>
-        <p>Lets find Waldo</p>
+        <p>This is a simple game that asks you to find specific character from an image</p>
+        <p>Then you can record your score in the score board</p>
         <Link to="/stages">
           <div className="butt-to-stages">Lets go</div>
         </Link>

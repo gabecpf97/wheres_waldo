@@ -1,6 +1,6 @@
 .navBar {
     background: cornsilk;
-    padding: 10px 20px;
+    padding: 20px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -8,4 +8,18 @@
 
 .title {
     margin: 0px;
+}
+
+.navBar ul {
+    margin: 0px;
+    display: flex;
+    justify-content: space-evenly;
+    align-self: center;
+    gap: 10px;
+}
+
+.navBar li {
+    font-size: larger;
+    background: khaki;
+    padding: 10px;
 }

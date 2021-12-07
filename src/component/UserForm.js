@@ -1,23 +1,43 @@
+import { addDoc, collection, getFirestore } from "@firebase/firestore";
 import React from "react";
+import { Link } from "react-router-dom";
 import { useState } from "react/cjs/react.development";
+import setupFirebase from "./setupFirebase";
+import { useNavigate } from "react-router-dom";
+import "../style/userForm.css";
 
-const UserForm = ({onHandleSubmit}) => {
-    const [name , setName] = useState('');
-
+const UserForm = ({id, theScore}) => {
+    const [myName , setName] = useState('');
+    let navi = useNavigate();
 
     const handleChange = (e) => {
         setName(e.target.value);
     }
 
+    const onSubmit = () => {
+        addDoc(collection(getFirestore(setupFirebase().app), `score_board${id}`), {
+            name: myName,
+            score: theScore
+        });
+        navi("/score_board");
+    }
+
     return (
-        <form onSubmit={() => onHandleSubmit(name)}>
-            <label>Name: </label>
-            <input type="text" 
-                value={name}
-                onChange={(e) => handleChange(e)}
-            />
-            <input type="submit" value="Add Score" /> 
-        </form>
+        <div className="userInput">
+            <h2>Add your name to the Score Board</h2>
+            <form>
+                <label>Name: </label>
+                <input type="text" 
+                    value={myName}
+                    onChange={(e) => handleChange(e)}
+                />
+            </form>
+            <div className="links"></div>
+            <button className="toScore" onClick={onSubmit}>
+                add
+            </button>
+            <Link className="toScore_link" to="/score_board">Score Board</Link>
+        </div>
     );
 }
 

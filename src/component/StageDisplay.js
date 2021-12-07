@@ -43,11 +43,11 @@ const StageDisplay = () => {
                     loading...
                 </div>}
             {loaded && (
-                stages.map((stageId, i) => { 
+                stages.map((stageId) => { 
                     const imgUrl = _getUrl(stageId);
                     return (
                         <Link to={`/stages/${stageId}`}
-                            state={imgUrl}>
+                            state={imgUrl} key={stageId}>
                             <div className="stageDiv" key={stageId}>
                                 <img src={imgUrl} 
                                     alt={stageId}/>

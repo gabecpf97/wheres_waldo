@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
-import "../style/stage.css";
-import DropDown from "./DropDown";
-import ScoreBoard from "./ScoreBoard";
-import setupFirebase from "./setupFirebase";
 import * as firestore from "firebase/firestore";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
+import DropDown from "./DropDown";
+import setupFirebase from "./setupFirebase";
+import "../style/stage.css";
+import UserForm from "./UserForm";
 
 const Stage = () => {
     const [stageID] = useState(useParams().id.replace());
@@ -181,8 +181,8 @@ const Stage = () => {
                             />
                         }
                     </div>
-                    {allFound&&
-                        <ScoreBoard 
+                    {allFound &&
+                        <UserForm
                             id={stageID}
                             theScore={myScore}
                         />
