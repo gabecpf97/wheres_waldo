@@ -15,7 +15,7 @@ const UserForm = ({id, theScore}) => {
     }
 
     const onSubmit = () => {
-        addDoc(collection(getFirestore(setupFirebase().app), `score_board${id}`), {
+        addDoc(collection(getFirestore(setupFirebase().app), `score_board_${id}`), {
             name: myName,
             score: theScore
         });
